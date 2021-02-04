@@ -1,4 +1,4 @@
-import express, { Router } from "express";
+import { Router } from "express";
 
 import did from "./did";
 import bus from "./bus";
