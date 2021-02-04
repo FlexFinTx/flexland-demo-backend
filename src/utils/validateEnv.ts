@@ -7,6 +7,7 @@ const requiredEnvVars = [
   "GRANT_TYPE",
   "ORG_DID",
   "FLEXHUB_URL",
+  "AUTH_URL",
 ];
 
 const validateEnv = () => {
