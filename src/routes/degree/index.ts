@@ -19,11 +19,16 @@ router.get("/pr", async (req: Request, res: Response) => {
 
   const pr = await createPresentationRequest(templateIds);
 
+  const show = {
+    requestType: "presentationRequest",
+    pr,
+  }
+
   const prmodel = await PRequests.findOne({});
   (prmodel as any).degree = pr.id;
   await prmodel.save();
 
-  const prQR = await qrcode.toDataURL(JSON.stringify(pr));
+  const prQR = await qrcode.toDataURL(JSON.stringify(show));
   return res.json({
     qrcode: prQR,
   });

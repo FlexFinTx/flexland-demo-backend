@@ -37,6 +37,14 @@ router.post("/cred", async (req: Request, res: Response) => {
     isRevocable: false,
   };
 
+  console.log({
+    id: did,
+    givenName: body.givenName,
+    familyName: body.familyName,
+    address: body.address,
+    birthDate: body.birthDate,
+  });
+
   const signedVc = await createCredential(unsignedVC);
   (c as any).city = signedVc;
   await c.save();

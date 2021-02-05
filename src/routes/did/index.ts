@@ -16,14 +16,17 @@ router.get("/pr", async (req: Request, res: Response) => {
 
   const pr = await createPresentationRequest(templateIds);
 
-  console.log(pr);
+  const show = {
+    requestType: "presentationRequest",
+    pr,
+  }
 
   const prequestmodel = new PRequests({
     didAuth: pr.id,
   });
   await prequestmodel.save();
 
-  const prQR = await qrcode.toDataURL(JSON.stringify(pr));
+  const prQR = await qrcode.toDataURL(JSON.stringify(show));
   return res.json({
     qrcode: prQR,
   });
@@ -36,8 +39,6 @@ router.get("/poll", async (req: Request, res: Response) => {
     (prequestmodel as any).didAuth as string,
     true
   );
-
-  console.log("REs: ", response);
 
   if (response === "NA") {
     return res.sendStatus(400);
