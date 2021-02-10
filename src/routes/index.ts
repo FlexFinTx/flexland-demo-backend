@@ -6,6 +6,7 @@ import city from "./city";
 import degree from "./degree";
 import employment from "./employment";
 import insurance from "./insurance";
+import health from "./health";
 
 const router = Router();
 
@@ -15,5 +16,6 @@ router.use("/city", city);
 router.use("/degree", degree);
 router.use("/employment", employment);
 router.use("/insurance", insurance);
+router.use("/health", health);
 
 export default router;

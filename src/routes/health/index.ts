@@ -2,7 +2,6 @@ import { Request, Response, Router } from "express";
 import qrcode from "qrcode";
 import Credentials from "../../database/Credentials";
 import PRequests from "../../database/PresentationRequests";
-import PRequests from "../../database/PresentationRequests";
 import PresentationRequestTemplates from "../../database/PresentationRequestTemplates";
 import Submissions from "../../database/PresentationSubmissions";
 import createCredential from "../../utils/createCredential";
