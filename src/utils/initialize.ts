@@ -103,11 +103,32 @@ export default async function initialize() {
 
   const employmentTemplateId = employmentResponse.data.id;
 
+  // Create Presentation Request Template for Insurance
+  const insuranceTemplateRequest = {
+    name: "Insurance Coverage Verification",
+    reason: "We need this to verify you're covered by insurance",
+    credentialType: "FlexLandInsuranceCredential",
+    credentialIssuers: [process.env.ORG_DID],
+  };
+
+  const insuranceResponse = await axios.post(
+    process.env.FLEXHUB_URL + "/presentations/templates",
+    insuranceTemplateRequest,
+    {
+      headers: {
+        Authorization: "Bearer " + access_token,
+      },
+    }
+  );
+
+  const insuranceTemplateId = insuranceResponse.data.id;
+
   const prt = new PresentationRequestTemplates({
     didAuth: didAuthTemplateId,
     city: cityTemplateId,
     degree: degreeTemplateId,
     employment: employmentTemplateId,
+    insurance: insuranceTemplateId,
   });
   await prt.save();
 

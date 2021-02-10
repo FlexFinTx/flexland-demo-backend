@@ -7,6 +7,7 @@ const presentationRequestSchema = new mongoose.Schema({
   degree: String,
   employment: String,
   insurance: String,
+  health: String,
 });
 
 const PRequests = mongoose.model("PR", presentationRequestSchema);

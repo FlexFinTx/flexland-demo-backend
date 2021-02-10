@@ -5,6 +5,8 @@ const presentationRequestTemplateSchema = new mongoose.Schema({
   city: String,
   degree: String,
   employment: String,
+  health: String,
+  insurance: String,
 });
 
 const PRTemplates = mongoose.model("PRT", presentationRequestTemplateSchema);

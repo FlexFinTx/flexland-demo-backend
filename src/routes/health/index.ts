@@ -2,6 +2,7 @@ import { Request, Response, Router } from "express";
 import qrcode from "qrcode";
 import Credentials from "../../database/Credentials";
 import PRequests from "../../database/PresentationRequests";
+import PRequests from "../../database/PresentationRequests";
 import PresentationRequestTemplates from "../../database/PresentationRequestTemplates";
 import Submissions from "../../database/PresentationSubmissions";
 import createCredential from "../../utils/createCredential";
@@ -14,17 +15,19 @@ const router = Router();
 router.get("/pr", async (req: Request, res: Response) => {
   const prt = await PresentationRequestTemplates.findOne({});
   const cityTemplateId = (prt as any).city as string;
-  const degreeTemplateId = (prt as any).degree as string;
+  const insuranceTemplateId = (prt as any).insurance as string;
 
-  const templateIds = [cityTemplateId, degreeTemplateId];
+  const templateIds = [cityTemplateId, insuranceTemplateId];
 
   const pr = await createPresentationRequest(templateIds);
+
   const show = {
     requestType: "presentationRequest",
     pr,
   };
+
   const prmodel = await PRequests.findOne({});
-  (prmodel as any).bus = pr.id;
+  (prmodel as any).health = pr.id;
   await prmodel.save();
 
   const prQR = await qrcode.toDataURL(JSON.stringify(show));
@@ -36,13 +39,13 @@ router.get("/pr", async (req: Request, res: Response) => {
 router.get("/poll", async (req: Request, res: Response) => {
   const prmodel = await PRequests.findOne({});
 
-  const response = await fetchSubmission((prmodel as any).bus);
+  const response = await fetchSubmission((prmodel as any).health);
 
   if (response === "NA") {
     return res.sendStatus(400);
   } else {
     const submission = await Submissions.findOne({});
-    (submission as any).bus = response;
+    (submission as any).health = response;
     await submission.save();
     return res.sendStatus(200);
   }
@@ -57,10 +60,12 @@ router.post("/cred", async (req: Request, res: Response) => {
       "https://www.w3.org/2018/credentials/v1",
       "https://schema.org",
     ],
-    type: ["VerifiableCredential", "FlexLandCityTransitCredential"],
+    type: ["VerifiableCredential", "FlexLandHealthIDCredential"],
     credentialSubject: {
       id: did,
-      transitId: generateRandomString(15),
+      healthcareInstitution: "St. Generals Hospital",
+      patientId: generateRandomString(15).toUpperCase(),
+      tagId: generateRandomString(5).toUpperCase(),
     },
     issuer: process.env.ORG_DID,
     saveToBank: true,
@@ -68,7 +73,7 @@ router.post("/cred", async (req: Request, res: Response) => {
   };
 
   const signedVc = await createCredential(unsignedVC);
-  (c as any).busId = signedVc;
+  (c as any).healthId = signedVc;
   await c.save();
 
   const saveRequest = {

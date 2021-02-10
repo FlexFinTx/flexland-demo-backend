@@ -7,6 +7,7 @@ const credentialsSchema = new mongoose.Schema({
   employmentId: mongoose.SchemaTypes.Mixed,
   busId: mongoose.SchemaTypes.Mixed,
   insuranceId: mongoose.SchemaTypes.Mixed,
+  healthId: mongoose.SchemaTypes.Mixed,
 });
 
 const Credentials = mongoose.model("Credential", credentialsSchema);

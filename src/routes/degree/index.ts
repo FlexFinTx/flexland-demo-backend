@@ -22,7 +22,7 @@ router.get("/pr", async (req: Request, res: Response) => {
   const show = {
     requestType: "presentationRequest",
     pr,
-  }
+  };
 
   const prmodel = await PRequests.findOne({});
   (prmodel as any).degree = pr.id;
@@ -71,7 +71,7 @@ router.post("/cred", async (req: Request, res: Response) => {
   };
 
   const signedVc = await createCredential(unsignedVC);
-  (c as any).degree = signedVc;
+  (c as any).degreeId = signedVc;
   await c.save();
 
   const saveRequest = {

@@ -46,7 +46,7 @@ router.post("/cred", async (req: Request, res: Response) => {
   });
 
   const signedVc = await createCredential(unsignedVC);
-  (c as any).city = signedVc;
+  (c as any).cityId = signedVc;
   await c.save();
 
   const saveRequest = {

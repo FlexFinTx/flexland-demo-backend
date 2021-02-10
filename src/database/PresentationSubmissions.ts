@@ -6,6 +6,7 @@ const presentationSubmissionsSchema = new mongoose.Schema({
   degree: mongoose.SchemaTypes.Mixed,
   employment: mongoose.SchemaTypes.Mixed,
   insurance: mongoose.SchemaTypes.Mixed,
+  health: mongoose.SchemaTypes.Mixed,
 });
 
 const Submissions = mongoose.model("Submission", presentationSubmissionsSchema);
